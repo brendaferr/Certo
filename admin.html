@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Lanchonete</title>
+    <style>
+        /* Estilos para exibição do cardápio e horário de funcionamento */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        header {
+            background-color: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        main {
+            padding: 2rem;
+        }
+        .cardapio {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            justify-content: center;
+        }
+        .item {
+            background-color: white;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .item img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .btn-excluir, .btn-editar {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-excluir {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .btn-excluir:hover {
+            background-color: #c0392b;
+        }
+        .btn-editar {
+            background-color: #f39c12;
+            color: white;
+        }
+        .btn-editar:hover {
+            background-color: #e67e22;
+        }
+        .horario-container {
+            margin-top: 2rem;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .horario-container h3 {
+            margin-bottom: 1rem;
+        }
+        .horario-container p {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cardápio Lanchonete Delícia</h1>
+    </header>
+
+    <main>
+        <h2>Confira nosso Cardápio!</h2>
+        <div class="cardapio" id="cardapioContainer"></div>
+
+        <div class="horario-container">
+            <h3>Horário de Funcionamento</h3>
+            <p id="horarioExibido">Carregando horário...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>Lanchonete Delícia | Endereço: Rua Saborosa, 123 - Centro</p>
+    </footer>
+
+    <script>
+        // Função para carregar o cardápio do localStorage
+        function carregarCardapio() {
+            const cardapioContainer = document.getElementById('cardapioContainer');
+            let cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
+
+            cardapioContainer.innerHTML = ''; // Limpa o container antes de preencher novamente
+
+            if (cardapio.length > 0) {
+                cardapio.forEach((item, index) => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add('item');
+
+                    const itemImg = document.createElement('img');
+                    itemImg.src = item.imagem;
+                    itemImg.alt = item.nome;
+
+                    const itemNome = document.createElement('h3');
+                    itemNome.textContent = item.nome;
+
+                    const itemPreco = document.createElement('p');
+                    itemPreco.textContent = `R$ ${item.preco.toFixed(2)}`;
+
+                    const btnExcluir = document.createElement('button');
+                    btnExcluir.classList.add('btn-excluir');
+                    btnExcluir.textContent = 'Excluir';
+                    btnExcluir.onclick = function () {
+                        excluirItem(index);
+                    };
+
+                    const btnEditar = document.createElement('button');
+                    btnEditar.classList.add('btn-editar');
+                    btnEditar.textContent = 'Editar';
+                    btnEditar.onclick = function () {
+                        editarItem(index);
+                    };
+
+                    itemDiv.appendChild(itemImg);
+                    itemDiv.appendChild(itemNome);
+                    itemDiv.appendChild(itemPreco);
+                    itemDiv.appendChild(btnEditar);
+                    itemDiv.appendChild(btnExcluir);
+
+                    cardapioContainer.appendChild(itemDiv);
+                });
+            } else {
+                cardapioContainer.innerHTML = '<p>Nenhum item no cardápio.</p>';
+            }
+        }
+
+        // Função para excluir um item
+        function excluirItem(index) {
+            let cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
+            // Remove o item do array
+            cardapio.splice(index, 1);
+
+            // Atualiza o localStorage
+            localStorage.setItem('cardapio', JSON.stringify(cardapio));
+
+            // Recarrega a página para refletir a exclusão
+            carregarCardapio();
+        }
+
+        // Função para editar um item
+        function editarItem(index) {
+            let cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
+            const item = cardapio[index];
+
+            // Preenche o formulário de edição com os dados do item
+            const nomeLanche = prompt("Novo nome do lanche", item.nome);
+            const precoLanche = prompt("Novo preço do lanche", item.preco);
+            const imagemLanche = prompt("Nova URL da imagem", item.imagem);
+
+            if (nomeLanche && precoLanche && imagemLanche) {
+                // Atualiza os dados do item
+                cardapio[index] = {
+                    nome: nomeLanche,
+                    preco: parseFloat(precoLanche),
+                    imagem: imagemLanche
+                };
+
+                // Atualiza o localStorage
+                localStorage.setItem('cardapio', JSON.stringify(cardapio));
+
+                // Recarrega a página para refletir as mudanças
+                carregarCardapio();
+            }
+        }
+
+        // Função para carregar o horário de funcionamento
+        function carregarHorario() {
+            const horario = JSON.parse(localStorage.getItem('horarioFuncionamento'));
+            const horarioExibido = document.getElementById('horarioExibido');
+
+            if (horario) {
+                horarioExibido.textContent = `Horário de Funcionamento: ${horario.abertura} - ${horario.fechamento}`;
+            } else {
+                horarioExibido.textContent = 'Horário de Funcionamento não configurado.';
+            }
+        }
+
+        // Carregar o cardápio e horário ao carregar a página
+        window.onload = function() {
+            carregarCardapio();
+            carregarHorario();
+        };
+    </script>
+
+</body>
+</html>

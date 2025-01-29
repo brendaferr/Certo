@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        main {
+            padding: 2rem;
+        }
+        .carrinho-container {
+            max-width: 800px;
+            margin: auto;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .item-carrinho {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+        }
+        .item-carrinho img {
+            width: 80px;
+            border-radius: 8px;
+        }
+        .item-detalhes {
+            flex: 1;
+            margin-left: 1rem;
+        }
+        .item-detalhes h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        .item-detalhes p {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+        .item-detalhes strong {
+            color: #ff9800;
+        }
+        .item-carrinho button {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+        .item-carrinho button:hover {
+            background-color: darkred;
+        }
+        .total-container {
+            text-align: right;
+            margin-top: 1.5rem;
+        }
+        .total-container h3 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .btn-finalizar {
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .btn-finalizar:hover {
+            background-color: #e68a00;
+        }
+        footer {
+            background-color: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Seu Carrinho</h1>
+    </header>
+
+    <main>
+        <div class="carrinho-container" id="carrinhoContainer">
+            <!-- Itens do carrinho serão carregados aqui -->
+        </div>
+
+        <div class="total-container">
+            <h3>Total: R$ <span id="totalPreco">0.00</span></h3>
+            <button class="btn-finalizar" onclick="finalizarPedido()">Finalizar Pedido</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>Lanchonete Delícia | Rua Saborosa, 123 - Centro</p>
+    </footer>
+
+    <script>
+        // Carregar carrinho do localStorage
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        const carrinhoContainer = document.getElementById('carrinhoContainer');
+        const totalPreco = document.getElementById('totalPreco');
+
+        // Renderizar itens do carrinho
+        function renderizarCarrinho() {
+            carrinhoContainer.innerHTML = '';
+            let total = 0;
+
+            if (carrinho.length === 0) {
+                carrinhoContainer.innerHTML = '<p>Seu carrinho está vazio.</p>';
+                totalPreco.textContent = '0.00';
+                return;
+            }
+
+            carrinho.forEach((item, index) => {
+                total += item.preco;
+
+                const itemCarrinho = document.createElement('div');
+                itemCarrinho.className = 'item-carrinho';
+
+                itemCarrinho.innerHTML = `
+                    <img src="${item.imagem}" alt="${item.nome}">
+                    <div class="item-detalhes">
+                        <h3>${item.nome}</h3>
+                        <p>${item.descricao || ''}</p>
+                        <p><strong>R$ ${item.preco.toFixed(2)}</strong></p>
+                    </div>
+                    <button onclick="removerDoCarrinho(${index})">Remover</button>
+                `;
+
+                carrinhoContainer.appendChild(itemCarrinho);
+            });
+
+            totalPreco.textContent = total.toFixed(2);
+        }
+
+        // Remover item do carrinho
+        function removerDoCarrinho(index) {
+            carrinho.splice(index, 1);
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            renderizarCarrinho();
+        }
+
+        // Finalizar pedido
+        function finalizarPedido() {
+            if (carrinho.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+
+            alert('Pedido finalizado com sucesso!');
+            carrinho = [];
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            renderizarCarrinho();
+        }
+
+        // Renderizar carrinho ao carregar a página
+        renderizarCarrinho();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio</title>
+    <style>
+        /* Estilos (mantidos como no seu código anterior) */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+        header .cart-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+        }
+        header .cart-icon img {
+            width: 40px;
+        }
+        header .cart-icon span {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: red;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 2px 6px;
+        }
+        main {
+            padding: 2rem;
+        }
+        .cardapio-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .lanche-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            width: 300px;
+            text-align: center;
+        }
+        .lanche-card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .lanche-card h3 {
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+        }
+        .lanche-card p {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+        .lanche-card button {
+            padding: 0.8rem 1.2rem;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .lanche-card button:hover {
+            background-color: #e68a00;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cardápio</h1>
+        <div class="cart-icon" onclick="abrirCarrinho()">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/shopping-cart.png" alt="Carrinho">
+            <span id="cartCount">0</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="cardapio-container" id="cardapioContainer">
+            <!-- Os itens do cardápio serão carregados aqui -->
+        </div>
+    </main>
+
+    <script>
+        // Dados do cardápio no localStorage
+        const cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
+        const cardapioContainer = document.getElementById('cardapioContainer');
+        const cartCount = document.getElementById('cartCount');
+
+        // Inicializar o carrinho
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        atualizarContadorCarrinho();
+
+        // Renderizar o cardápio
+        function renderizarCardapio() {
+            cardapioContainer.innerHTML = '';
+            if (cardapio.length === 0) {
+                cardapioContainer.innerHTML = '<p>O cardápio está vazio. Adicione itens no painel de gerenciamento.</p>';
+                return;
+            }
+            cardapio.forEach((lanche, index) => {
+                const lancheCard = document.createElement('div');
+                lancheCard.className = 'lanche-card';
+
+                lancheCard.innerHTML = `
+                    <img src="${lanche.imagem || 'https://via.placeholder.com/300x200'}" alt="${lanche.nome}">
+                    <h3>${lanche.nome}</h3>
+                    <p>${lanche.descricao}</p>
+                    <p><strong>R$ ${lanche.preco.toFixed(2)}</strong></p>
+                    <button onclick="adicionarAoCarrinho(${index})">Adicionar ao Carrinho</button>
+                `;
+                cardapioContainer.appendChild(lancheCard);
+            });
+        }
+
+        // Atualizar o contador do carrinho
+        function atualizarContadorCarrinho() {
+            cartCount.textContent = carrinho.length;
+        }
+
+        // Adicionar item ao carrinho
+        function adicionarAoCarrinho(index) {
+            const item = cardapio[index];
+            carrinho.push(item);
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarContadorCarrinho();
+            alert(`${item.nome} foi adicionado ao carrinho!`);
+        }
+
+        // Abrir o carrinho (redirecionar para outra página)
+        function abrirCarrinho() {
+            window.location.href = 'carrinho.html';
+        }
+
+        // Renderizar o cardápio ao carregar a página
+        renderizarCardapio();
+    </script>
+
+</body>
+</html>

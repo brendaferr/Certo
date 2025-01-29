@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Gerenciamento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        main {
+            padding: 2rem;
+        }
+        .form-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        .form-container input, .form-container textarea, .form-container button {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .form-container button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #e68a00;
+        }
+        .nav-link {
+            display: block;
+            margin-top: 2rem;
+            text-align: center;
+            text-decoration: none;
+            color: #ff9800;
+            font-size: 1.2rem;
+        }
+        .nav-link:hover {
+            color: #e68a00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Painel de Gerenciamento</h1>
+    </header>
+    <main>
+        <div class="form-container">
+            <h2>Adicionar Novo Item</h2>
+            <form id="formLanche">
+                <input type="text" id="nomeLanche" placeholder="Nome do Lanche" required>
+                <input type="number" id="precoLanche" placeholder="Preço (R$)" required>
+                <textarea id="descricaoLanche" placeholder="Descrição" required></textarea>
+                <button type="submit">Adicionar ao Cardápio</button>
+            </form>
+        </div>
+        <a href="comprar.html" class="nav-link">Ir para a Página de Compras</a>
+    </main>
+    <script>
+        const formLanche = document.getElementById('formLanche');
+        const nomeLanche = document.getElementById('nomeLanche');
+        const precoLanche = document.getElementById('precoLanche');
+        const descricaoLanche = document.getElementById('descricaoLanche');
+
+        let cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
+
+        formLanche.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const novoItem = {
+                nome: nomeLanche.value,
+                preco: parseFloat(precoLanche.value),
+                descricao: descricaoLanche.value
+            };
+
+            cardapio.push(novoItem);
+            localStorage.setItem('cardapio', JSON.stringify(cardapio));
+
+            nomeLanche.value = '';
+            precoLanche.value = '';
+            descricaoLanche.value = '';
+
+            alert('Item adicionado com sucesso!');
+        });
+    </script>
+</body>
+</html>
