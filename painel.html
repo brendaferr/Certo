@@ -114,12 +114,11 @@
         // Atualizar o status de funcionamento na página
         function atualizarStatus() {
             const statusElement = document.getElementById('statusHorario');
+            statusElement.textContent = `Horário de funcionamento: ${horaAbertura} às ${horaFechamento}`;
             if (verificarHorario()) {
-                statusElement.textContent = `Horário de funcionamento: ${horaAbertura} às ${horaFechamento} (Aberto)`;
                 statusElement.style.color = "green";
             } else {
-                statusElement.textContent = `O estabelecimento está fechado. Só é possível realizar pedidos entre ${horaAbertura} e ${horaFechamento}.`;
-                statusElement.style.color = "red";
+                statusElement.style.color = "gray"; // Apenas exibe o horário sem alertar sobre estar fechado
             }
         }
 
@@ -156,11 +155,7 @@
         formLanche.addEventListener('submit', function (event) {
             event.preventDefault();
             
-            if (!verificarHorario()) {
-                alert('O estabelecimento está fechado. Os pedidos só podem ser feitos durante o horário de funcionamento.');
-                return;
-            }
-            
+            // Não há bloqueio de envio, o formulário pode ser enviado independentemente do horário
             const file = imagemLanche.files[0];
             if (file) {
                 const reader = new FileReader();
