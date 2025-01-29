@@ -68,6 +68,7 @@
                 <input type="text" id="nomeLanche" placeholder="Nome do Lanche" required>
                 <input type="number" id="precoLanche" placeholder="Preço (R$)" required>
                 <textarea id="descricaoLanche" placeholder="Descrição" required></textarea>
+                <input type="file" id="imagemLanche" accept="image/*" required>
                 <button type="submit">Adicionar ao Cardápio</button>
             </form>
         </div>
@@ -78,26 +79,36 @@
         const nomeLanche = document.getElementById('nomeLanche');
         const precoLanche = document.getElementById('precoLanche');
         const descricaoLanche = document.getElementById('descricaoLanche');
+        const imagemLanche = document.getElementById('imagemLanche');
 
         let cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
 
         formLanche.addEventListener('submit', function (event) {
             event.preventDefault();
-
-            const novoItem = {
-                nome: nomeLanche.value,
-                preco: parseFloat(precoLanche.value),
-                descricao: descricaoLanche.value
-            };
-
-            cardapio.push(novoItem);
-            localStorage.setItem('cardapio', JSON.stringify(cardapio));
-
-            nomeLanche.value = '';
-            precoLanche.value = '';
-            descricaoLanche.value = '';
-
-            alert('Item adicionado com sucesso!');
+            
+            const file = imagemLanche.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    const novoItem = {
+                        nome: nomeLanche.value,
+                        preco: parseFloat(precoLanche.value),
+                        descricao: descricaoLanche.value,
+                        imagem: reader.result
+                    };
+                    
+                    cardapio.push(novoItem);
+                    localStorage.setItem('cardapio', JSON.stringify(cardapio));
+                    
+                    nomeLanche.value = '';
+                    precoLanche.value = '';
+                    descricaoLanche.value = '';
+                    imagemLanche.value = '';
+                    
+                    alert('Item adicionado com sucesso!');
+                };
+            }
         });
     </script>
 </body>
