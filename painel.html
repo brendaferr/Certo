@@ -60,8 +60,20 @@
 <body>
     <header>
         <h1>Painel de Gerenciamento</h1>
+        <p id="statusHorario">Horário de funcionamento: 19h às 00h</p>
     </header>
     <main>
+        <div class="form-container">
+            <h2>Configurar Horário de Funcionamento</h2>
+            <form id="formHorario">
+                <label for="horaAbertura">Hora de Abertura:</label>
+                <input type="time" id="horaAbertura" required>
+                <label for="horaFechamento">Hora de Fechamento:</label>
+                <input type="time" id="horaFechamento" required>
+                <button type="submit">Salvar Horário</button>
+            </form>
+        </div>
+
         <div class="form-container">
             <h2>Adicionar Novo Item</h2>
             <form id="formLanche">
@@ -75,6 +87,64 @@
         <a href="comprar.html" class="nav-link">Ir para a Página de Compras</a>
     </main>
     <script>
+        // Variáveis para os horários de funcionamento
+        let horaAbertura = localStorage.getItem('horaAbertura') || '19:00';
+        let horaFechamento = localStorage.getItem('horaFechamento') || '00:00';
+
+        // Função para verificar o horário de funcionamento
+        function verificarHorario() {
+            const agora = new Date();
+            const horaAtual = agora.getHours();
+            const minutoAtual = agora.getMinutes();
+
+            const [horaAberturaH, minutoAberturaM] = horaAbertura.split(':').map(Number);
+            const [horaFechamentoH, minutoFechamentoM] = horaFechamento.split(':').map(Number);
+
+            // Verificar se o horário atual está dentro do intervalo
+            if (
+                (horaAtual > horaAberturaH || (horaAtual === horaAberturaH && minutoAtual >= minutoAberturaM)) &&
+                (horaAtual < horaFechamentoH || (horaAtual === horaFechamentoH && minutoAtual < minutoFechamentoM))
+            ) {
+                return true; // Está aberto
+            }
+
+            return false; // Está fechado
+        }
+
+        // Atualizar o status de funcionamento na página
+        function atualizarStatus() {
+            const statusElement = document.getElementById('statusHorario');
+            if (verificarHorario()) {
+                statusElement.textContent = `Horário de funcionamento: ${horaAbertura} às ${horaFechamento} (Aberto)`;
+                statusElement.style.color = "green";
+            } else {
+                statusElement.textContent = `O estabelecimento está fechado. Só é possível realizar pedidos entre ${horaAbertura} e ${horaFechamento}.`;
+                statusElement.style.color = "red";
+            }
+        }
+
+        // Chamar a função para atualizar o status ao carregar a página
+        atualizarStatus();
+
+        // Configurar horário de funcionamento
+        const formHorario = document.getElementById('formHorario');
+        formHorario.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Salvar horários configurados no LocalStorage
+            const horaAberturaInput = document.getElementById('horaAbertura').value;
+            const horaFechamentoInput = document.getElementById('horaFechamento').value;
+
+            localStorage.setItem('horaAbertura', horaAberturaInput);
+            localStorage.setItem('horaFechamento', horaFechamentoInput);
+
+            horaAbertura = horaAberturaInput;
+            horaFechamento = horaFechamentoInput;
+
+            alert('Horário de funcionamento atualizado!');
+            atualizarStatus();
+        });
+
         const formLanche = document.getElementById('formLanche');
         const nomeLanche = document.getElementById('nomeLanche');
         const precoLanche = document.getElementById('precoLanche');
@@ -85,6 +155,11 @@
 
         formLanche.addEventListener('submit', function (event) {
             event.preventDefault();
+            
+            if (!verificarHorario()) {
+                alert('O estabelecimento está fechado. Os pedidos só podem ser feitos durante o horário de funcionamento.');
+                return;
+            }
             
             const file = imagemLanche.files[0];
             if (file) {
