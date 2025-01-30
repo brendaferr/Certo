@@ -84,6 +84,18 @@
                 <button type="submit">Adicionar ao Cardápio</button>
             </form>
         </div>
+
+        <!-- Novo Formulário para a Loja -->
+        <div class="form-container">
+            <h2>Configurar Informações da Loja</h2>
+            <form id="formLoja">
+                <input type="text" id="nomeLoja" placeholder="Nome da Loja" required>
+                <input type="text" id="sloganLoja" placeholder="Slogan da Loja" required>
+                <input type="file" id="logoLoja" accept="image/*" required>
+                <button type="submit">Salvar Informações</button>
+            </form>
+        </div>
+
         <a href="comprar.html" class="nav-link">Ir para a Página de Compras</a>
     </main>
     <script>
@@ -177,6 +189,32 @@
                     imagemLanche.value = '';
                     
                     alert('Item adicionado com sucesso!');
+                };
+            }
+        });
+
+        // Salvar informações da loja
+        const formLoja = document.getElementById('formLoja');
+        formLoja.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const nomeLoja = document.getElementById('nomeLoja').value;
+            const sloganLoja = document.getElementById('sloganLoja').value;
+            const logoLoja = document.getElementById('logoLoja').files[0];
+
+            if (logoLoja) {
+                const reader = new FileReader();
+                reader.readAsDataURL(logoLoja);
+                reader.onload = function () {
+                    const loja = {
+                        nome: nomeLoja,
+                        slogan: sloganLoja,
+                        logo: reader.result
+                    };
+
+                    localStorage.setItem('loja', JSON.stringify(loja));
+
+                    alert('Informações da loja salvas com sucesso!');
                 };
             }
         });
