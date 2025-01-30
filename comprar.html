@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cardápio</title>
     <style>
-        /* Estilos (mantidos como no seu código anterior) */
+        /* Estilos */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
         }
         header {
-            background-color: #ff9800;
             color: white;
             text-align: center;
             padding: 1rem;
@@ -116,7 +114,7 @@
 </head>
 <body>
 
-    <header>
+    <header id="header">
         <div class="loja-info" id="lojaInfo">
             <!-- Nome, Slogan e Logo da Loja serão inseridos aqui -->
         </div>
@@ -140,6 +138,7 @@
         const loja = JSON.parse(localStorage.getItem('loja')) || {};
         const lojaInfo = document.getElementById('lojaInfo');
         const horarioFuncionamento = document.getElementById('horarioFuncionamento');
+        const header = document.getElementById('header');
 
         // Exibir informações da loja
         if (loja.nome && loja.slogan && loja.logo) {
@@ -241,8 +240,9 @@
 
         // Aplicar cores personalizadas
         function aplicarCores() {
-            const corFundo = localStorage.getItem('corFundo') || '#ff9800';
-            const corBotao = localStorage.getItem('corBotao') || '#e68a00';
+            const corFundo = localStorage.getItem('corFundo') || '#ffffff'; // Cor de fundo da página
+            const corBotao = localStorage.getItem('corBotao') || '#ff9800'; // Cor dos botões
+            const corCabecalho = localStorage.getItem('corCabecalho') || '#ff9800'; // Cor do cabeçalho
 
             // Aplicar a cor de fundo da página
             document.body.style.backgroundColor = corFundo;
@@ -252,6 +252,9 @@
             botoes.forEach(button => {
                 button.style.backgroundColor = corBotao;
             });
+
+            // Aplicar a cor do cabeçalho
+            header.style.backgroundColor = corCabecalho;
         }
 
         // Renderizar o cardápio e aplicar cores ao carregar a página
