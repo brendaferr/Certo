@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -239,8 +239,24 @@
             window.location.href = 'carrinho.html';
         }
 
-        // Renderizar o cardápio ao carregar a página
+        // Aplicar cores personalizadas
+        function aplicarCores() {
+            const corFundo = localStorage.getItem('corFundo') || '#ff9800';
+            const corBotao = localStorage.getItem('corBotao') || '#e68a00';
+
+            // Aplicar a cor de fundo da página
+            document.body.style.backgroundColor = corFundo;
+
+            // Aplicar cor dos botões
+            const botoes = document.querySelectorAll('.lanche-card button');
+            botoes.forEach(button => {
+                button.style.backgroundColor = corBotao;
+            });
+        }
+
+        // Renderizar o cardápio e aplicar cores ao carregar a página
         renderizarCardapio();
+        aplicarCores();
     </script>
 
 </body>

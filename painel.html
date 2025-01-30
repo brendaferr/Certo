@@ -63,6 +63,20 @@
         <p id="statusHorario">Horário de funcionamento: 19h às 00h</p>
     </header>
     <main>
+        <!-- Formulário para configurar as cores -->
+        <div class="form-container">
+            <h2>Escolher Cores</h2>
+            <form id="formCores">
+                <label for="corFundo">Cor de Fundo:</label>
+                <input type="color" id="corFundo" value="#ff9800">
+                <label for="corCabecalho">Cor do Cabeçalho:</label>
+                <input type="color" id="corCabecalho" value="#ff9800">
+                <label for="corBotao">Cor dos Botões:</label>
+                <input type="color" id="corBotao" value="#e68a00">
+                <button type="submit">Salvar Cores</button>
+            </form>
+        </div>
+
         <div class="form-container">
             <h2>Configurar Horário de Funcionamento</h2>
             <form id="formHorario">
@@ -85,7 +99,6 @@
             </form>
         </div>
 
-        <!-- Novo Formulário para a Loja -->
         <div class="form-container">
             <h2>Configurar Informações da Loja</h2>
             <form id="formLoja">
@@ -99,42 +112,56 @@
         <a href="comprar.html" class="nav-link">Ir para a Página de Compras</a>
     </main>
     <script>
-        // Variáveis para os horários de funcionamento
+        // Aplicar cores personalizadas
+        function aplicarCores() {
+            const corFundo = localStorage.getItem('corFundo') || '#ff9800'; // Cor de fundo da página
+            const corBotao = localStorage.getItem('corBotao') || '#e68a00'; // Cor dos botões
+            const corCabecalho = localStorage.getItem('corCabecalho') || '#ff9800'; // Cor do cabeçalho
+
+            // Aplicar a cor de fundo da página
+            document.body.style.backgroundColor = corFundo;
+
+            // Aplicar cor dos botões
+            const botoes = document.querySelectorAll('.lanche-card button');
+            botoes.forEach(button => {
+                button.style.backgroundColor = corBotao;
+            });
+
+            // Aplicar cor do cabeçalho
+            const header = document.querySelector('header');
+            header.style.backgroundColor = corCabecalho;
+        }
+
+        // Chama a função para aplicar as cores ao carregar a página
+        aplicarCores();
+
+        // Formulário para salvar as cores
+        const formCores = document.getElementById('formCores');
+        formCores.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const corFundo = document.getElementById('corFundo').value;
+            const corCabecalho = document.getElementById('corCabecalho').value;
+            const corBotao = document.getElementById('corBotao').value;
+
+            localStorage.setItem('corFundo', corFundo);
+            localStorage.setItem('corCabecalho', corCabecalho);
+            localStorage.setItem('corBotao', corBotao);
+
+            aplicarCores(); // Atualiza as cores aplicadas
+            alert('Cores salvas com sucesso!');
+        });
+
+        // Função para verificar o horário de funcionamento
         let horaAbertura = localStorage.getItem('horaAbertura') || '19:00';
         let horaFechamento = localStorage.getItem('horaFechamento') || '00:00';
 
-        // Função para verificar o horário de funcionamento
-        function verificarHorario() {
-            const agora = new Date();
-            const horaAtual = agora.getHours();
-            const minutoAtual = agora.getMinutes();
-
-            const [horaAberturaH, minutoAberturaM] = horaAbertura.split(':').map(Number);
-            const [horaFechamentoH, minutoFechamentoM] = horaFechamento.split(':').map(Number);
-
-            // Verificar se o horário atual está dentro do intervalo
-            if (
-                (horaAtual > horaAberturaH || (horaAtual === horaAberturaH && minutoAtual >= minutoAberturaM)) &&
-                (horaAtual < horaFechamentoH || (horaAtual === horaFechamentoH && minutoAtual < minutoFechamentoM))
-            ) {
-                return true; // Está aberto
-            }
-
-            return false; // Está fechado
-        }
-
-        // Atualizar o status de funcionamento na página
         function atualizarStatus() {
             const statusElement = document.getElementById('statusHorario');
             statusElement.textContent = `Horário de funcionamento: ${horaAbertura} às ${horaFechamento}`;
-            if (verificarHorario()) {
-                statusElement.style.color = "green";
-            } else {
-                statusElement.style.color = "gray"; // Apenas exibe o horário sem alertar sobre estar fechado
-            }
         }
 
-        // Chamar a função para atualizar o status ao carregar a página
+        // Atualizar o status de funcionamento na página
         atualizarStatus();
 
         // Configurar horário de funcionamento
