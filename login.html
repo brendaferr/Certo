@@ -19,6 +19,16 @@
         }
         main {
             padding: 2rem;
+            text-align: center;
+        }
+        footer {
+            background-color: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
         .login {
             display: flex;
@@ -53,48 +63,6 @@
         .login-form button:hover {
             background-color: #e68a00;
         }
-        footer {
-            background-color: #ff9800;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        .admin-form {
-            margin: 0 auto;
-            max-width: 600px;
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .admin-form h3 {
-            margin-bottom: 1rem;
-        }
-        .admin-form label {
-            display: block;
-            margin: 0.5rem 0 0.2rem;
-        }
-        .admin-form input, .admin-form textarea {
-            width: 100%;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .admin-form button {
-            padding: 0.5rem 1rem;
-            background-color: #ff9800;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .admin-form button:hover {
-            background-color: #e68a00;
-        }
     </style>
     <script>
         function validarLogin() {
@@ -106,22 +74,10 @@
             const senhaCorreta = '12345';
 
             if (usuario === usuarioCorreto && senha === senhaCorreta) {
-                alert('Login bem-sucedido! Redirecionando para a área administrativa.');
+                alert('Login bem-sucedido! Redirecionando para o painel.');
                 window.location.href = 'painel.html';
             } else {
                 alert('Usuário ou senha incorretos!');
-            }
-        }
-
-        function salvarAlteracoes() {
-            const produto = document.querySelector('#nome-produto').value;
-            const preco = document.querySelector('#preco-produto').value;
-            const imagem = document.querySelector('#imagem-produto').value;
-
-            if (produto && preco && imagem) {
-                alert(`Produto: ${produto}\nPreço: R$${preco}\nImagem: ${imagem}\n\nAlterações salvas com sucesso!`);
-            } else {
-                alert('Preencha todos os campos antes de salvar.');
             }
         }
     </script>
@@ -131,7 +87,6 @@
         <h1>Lanchonete Delícia</h1>
         <p>O melhor sabor, sempre!</p>
     </header>
-
     <div class="login">
         <div class="login-form">
             <h2>Login do Administrador</h2>
@@ -140,114 +95,6 @@
             <button onclick="validarLogin()">Entrar</button>
         </div>
     </div>
-
-    <footer>
-        <p>Telefone: (55) 99999-9999 | Endereço: Rua Saborosa, 123 - Centro</p>
-    </footer>
-</body>
-</html>
-
-<!-- Página admin.html -->
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área Administrativa</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-        }
-        header {
-            background-color: #ff9800;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-        }
-        main {
-            padding: 2rem;
-            text-align: center;
-        }
-        footer {
-            background-color: #ff9800;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        .admin-form {
-            margin: 0 auto;
-            max-width: 600px;
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .admin-form h3 {
-            margin-bottom: 1rem;
-        }
-        .admin-form label {
-            display: block;
-            margin: 0.5rem 0 0.2rem;
-        }
-        .admin-form input, .admin-form textarea {
-            width: 100%;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .admin-form button {
-            padding: 0.5rem 1rem;
-            background-color: #ff9800;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .admin-form button:hover {
-            background-color: #e68a00;
-        }
-    </style>
-    <script>
-        function salvarAlteracoes() {
-            const produto = document.querySelector('#nome-produto').value;
-            const preco = document.querySelector('#preco-produto').value;
-            const imagem = document.querySelector('#imagem-produto').value;
-
-            if (produto && preco && imagem) {
-                alert(`Produto: ${produto}\nPreço: R$${preco}\nImagem: ${imagem}\n\nAlterações salvas com sucesso!`);
-            } else {
-                alert('Preencha todos os campos antes de salvar.');
-            }
-        }
-    </script>
-</head>
-<body>
-    <header>
-        <h1>Área Administrativa</h1>
-    </header>
-    <main>
-        <h2>Gerenciamento do Cardápio</h2>
-        <div class="admin-form">
-            <h3>Alterar Produto</h3>
-            <label for="nome-produto">Nome do Produto:</label>
-            <input type="text" id="nome-produto" placeholder="Ex: Hambúrguer">
-
-            <label for="preco-produto">Preço do Produto:</label>
-            <input type="text" id="preco-produto" placeholder="Ex: 19.90">
-
-            <label for="imagem-produto">URL da Imagem:</label>
-            <input type="text" id="imagem-produto" placeholder="Cole aqui a URL da imagem">
-
-            <button onclick="salvarAlteracoes()">Salvar Alterações</button>
-        </div>
-    </main>
     <footer>
         <p>Telefone: (55) 99999-9999 | Endereço: Rua Saborosa, 123 - Centro</p>
     </footer>

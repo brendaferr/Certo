@@ -4,56 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Gerenciamento</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f6f9;
             margin: 0;
             padding: 0;
         }
         header {
-            background-color: #ff9800;
+            background-color: #6a1b9a;
             color: white;
             text-align: center;
-            padding: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         main {
             padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
         .form-container {
             background-color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
         }
-        .form-container input, .form-container textarea, .form-container button {
-            width: 100%;
-            padding: 0.8rem;
+        .form-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        .form-container h2 {
             margin-bottom: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            color: #6a1b9a;
+        }
+        .form-container label {
+            font-weight: 500;
+            margin-top: 0.5rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .form-container input,
+        .form-container textarea,
+        .form-container button {
+            width: 100%;
+            padding: 0.9rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #ccc;
+            border-radius: 12px;
             font-size: 1rem;
+            box-sizing: border-box;
         }
         .form-container button {
-            background-color: #ff9800;
+            background-color: #6a1b9a;
             color: white;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
             border: none;
             cursor: pointer;
         }
         .form-container button:hover {
-            background-color: #e68a00;
+            background-color: #4a148c;
+            transform: scale(1.03);
         }
         .nav-link {
-            display: block;
-            margin-top: 2rem;
+            display: inline-block;
+            margin: 1rem 1rem 0 0;
             text-align: center;
             text-decoration: none;
-            color: #ff9800;
-            font-size: 1.2rem;
+            color: #6a1b9a;
+            font-weight: bold;
+            transition: color 0.3s;
         }
         .nav-link:hover {
-            color: #e68a00;
+            color: #4a148c;
         }
     </style>
 </head>
@@ -110,32 +136,28 @@
         </div>
 
         <a href="comprar.html" class="nav-link">Ir para a Página de Compras</a>
+        <a href="admin.html" class="nav-link">Ir para a Página cardápio admin</a>
     </main>
-    <script>
-        // Aplicar cores personalizadas
-        function aplicarCores() {
-            const corFundo = localStorage.getItem('corFundo') || '#ff9800'; // Cor de fundo da página
-            const corBotao = localStorage.getItem('corBotao') || '#e68a00'; // Cor dos botões
-            const corCabecalho = localStorage.getItem('corCabecalho') || '#ff9800'; // Cor do cabeçalho
 
-            // Aplicar a cor de fundo da página
+    <script>
+        function aplicarCores() {
+            const corFundo = localStorage.getItem('corFundo') || '#ff9800';
+            const corBotao = localStorage.getItem('corBotao') || '#e68a00';
+            const corCabecalho = localStorage.getItem('corCabecalho') || '#ff9800';
+
             document.body.style.backgroundColor = corFundo;
 
-            // Aplicar cor dos botões
-            const botoes = document.querySelectorAll('.lanche-card button');
+            const botoes = document.querySelectorAll('.form-container button');
             botoes.forEach(button => {
                 button.style.backgroundColor = corBotao;
             });
 
-            // Aplicar cor do cabeçalho
             const header = document.querySelector('header');
             header.style.backgroundColor = corCabecalho;
         }
 
-        // Chama a função para aplicar as cores ao carregar a página
         aplicarCores();
 
-        // Formulário para salvar as cores
         const formCores = document.getElementById('formCores');
         formCores.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -148,11 +170,10 @@
             localStorage.setItem('corCabecalho', corCabecalho);
             localStorage.setItem('corBotao', corBotao);
 
-            aplicarCores(); // Atualiza as cores aplicadas
+            aplicarCores();
             alert('Cores salvas com sucesso!');
         });
 
-        // Função para verificar o horário de funcionamento
         let horaAbertura = localStorage.getItem('horaAbertura') || '19:00';
         let horaFechamento = localStorage.getItem('horaFechamento') || '00:00';
 
@@ -161,15 +182,12 @@
             statusElement.textContent = `Horário de funcionamento: ${horaAbertura} às ${horaFechamento}`;
         }
 
-        // Atualizar o status de funcionamento na página
         atualizarStatus();
 
-        // Configurar horário de funcionamento
         const formHorario = document.getElementById('formHorario');
         formHorario.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            // Salvar horários configurados no LocalStorage
             const horaAberturaInput = document.getElementById('horaAbertura').value;
             const horaFechamentoInput = document.getElementById('horaFechamento').value;
 
@@ -193,8 +211,6 @@
 
         formLanche.addEventListener('submit', function (event) {
             event.preventDefault();
-            
-            // Não há bloqueio de envio, o formulário pode ser enviado independentemente do horário
             const file = imagemLanche.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -206,21 +222,17 @@
                         descricao: descricaoLanche.value,
                         imagem: reader.result
                     };
-                    
                     cardapio.push(novoItem);
                     localStorage.setItem('cardapio', JSON.stringify(cardapio));
-                    
                     nomeLanche.value = '';
                     precoLanche.value = '';
                     descricaoLanche.value = '';
                     imagemLanche.value = '';
-                    
                     alert('Item adicionado com sucesso!');
                 };
             }
         });
 
-        // Salvar informações da loja
         const formLoja = document.getElementById('formLoja');
         formLoja.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -238,9 +250,7 @@
                         slogan: sloganLoja,
                         logo: reader.result
                     };
-
                     localStorage.setItem('loja', JSON.stringify(loja));
-
                     alert('Informações da loja salvas com sucesso!');
                 };
             }

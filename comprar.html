@@ -1,266 +1,277 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardápio</title>
-    <style>
-        /* Estilos */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            position: relative;
-        }
-        header .cart-icon {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            cursor: pointer;
-        }
-        header .cart-icon img {
-            width: 40px;
-        }
-        header .cart-icon span {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: red;
-            color: white;
-            font-size: 0.8rem;
-            font-weight: bold;
-            border-radius: 50%;
-            padding: 2px 6px;
-        }
-        main {
-            padding: 2rem;
-        }
-        .cardapio-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-        }
-        .lanche-card {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 1rem;
-            width: 300px;
-            text-align: center;
-        }
-        .lanche-card img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-        .lanche-card h3 {
-            margin: 0.5rem 0;
-            font-size: 1.2rem;
-        }
-        .lanche-card p {
-            margin: 0.5rem 0;
-            color: #555;
-        }
-        .lanche-card button {
-            padding: 0.8rem 1.2rem;
-            background-color: #ff9800;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .lanche-card button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        .lanche-card button:hover:not(:disabled) {
-            background-color: #e68a00;
-        }
-        .loja-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-        .loja-info img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-right: 1rem;
-        }
-        .loja-info div {
-            text-align: left;
-        }
-        .loja-info h2 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-        .loja-info p {
-            margin: 0;
-            font-size: 1rem;
-        }
-        .horario-funcionamento {
-            font-size: 1rem;
-            color: white;
-            margin-top: 0.5rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardápio</title>
+  <style>
+    :root {
+      --cor-fundo: #f4f4f4;
+      --cor-destaque: #ff9800;
+      --cor-destaque-hover: #e68a00;
+      --cor-texto: #333;
+      --cor-cabecalho: linear-gradient(90deg, #ff9800, #ffb74d);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--cor-fundo);
+      color: var(--cor-texto);
+    }
+
+    header {
+      background: var(--cor-cabecalho);
+      color: white;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    .cart-icon img {
+      width: 36px;
+    }
+
+    .cart-icon span {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: red;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      border-radius: 50%;
+      padding: 2px 6px;
+    }
+
+    .loja-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .loja-info img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .loja-info div {
+      text-align: left;
+    }
+
+    .loja-info h2 {
+      font-size: 1.6rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .horario-funcionamento {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    main {
+      padding: 2rem 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cardapio-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .lanche-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s;
+    }
+
+    .lanche-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .lanche-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .lanche-card h3 {
+      font-size: 1.25rem;
+      margin: 0.5rem 1rem 0 1rem;
+    }
+
+    .lanche-card p {
+      margin: 0.25rem 1rem;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .lanche-card strong {
+      color: #222;
+      margin: 0 1rem;
+      font-size: 1rem;
+    }
+
+    .lanche-card button {
+      margin: 1rem;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--cor-destaque);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .lanche-card button:hover:not(:disabled) {
+      background-color: var(--cor-destaque-hover);
+    }
+
+    .lanche-card button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 480px) {
+      .loja-info {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .loja-info img {
+        margin: 0 auto;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <header id="header">
-        <div class="loja-info" id="lojaInfo">
-            <!-- Nome, Slogan e Logo da Loja serão inseridos aqui -->
+  <header id="header">
+    <div class="loja-info" id="lojaInfo"></div>
+    <div class="horario-funcionamento" id="horarioFuncionamento"></div>
+    <div class="cart-icon" onclick="abrirCarrinho()">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/shopping-cart.png" alt="Carrinho">
+      <span id="cartCount">0</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="cardapio-container" id="cardapioContainer"></div>
+  </main>
+
+  <script>
+    const loja = JSON.parse(localStorage.getItem('loja')) || {};
+    const lojaInfo = document.getElementById('lojaInfo');
+    const horarioFuncionamento = document.getElementById('horarioFuncionamento');
+    const header = document.getElementById('header');
+
+    if (loja.nome && loja.slogan && loja.logo) {
+      lojaInfo.innerHTML = `
+        <img src="${loja.logo}" alt="Logo da Loja">
+        <div>
+          <h2>${loja.nome}</h2>
+          <p>${loja.slogan}</p>
         </div>
-        <div class="horario-funcionamento" id="horarioFuncionamento">
-            <!-- Horário de funcionamento será exibido aqui -->
-        </div>
-        <div class="cart-icon" onclick="abrirCarrinho()">
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/shopping-cart.png" alt="Carrinho">
-            <span id="cartCount">0</span>
-        </div>
-    </header>
+      `;
+    } else {
+      lojaInfo.innerHTML = `<p>Informações da loja não configuradas.</p>`;
+    }
 
-    <main>
-        <div class="cardapio-container" id="cardapioContainer">
-            <!-- Os itens do cardápio serão carregados aqui -->
-        </div>
-    </main>
+    let horaAbertura = localStorage.getItem('horaAbertura') || '19:00';
+    let horaFechamento = localStorage.getItem('horaFechamento') || '00:00';
 
-    <script>
-        // Dados da loja no localStorage
-        const loja = JSON.parse(localStorage.getItem('loja')) || {};
-        const lojaInfo = document.getElementById('lojaInfo');
-        const horarioFuncionamento = document.getElementById('horarioFuncionamento');
-        const header = document.getElementById('header');
+    horarioFuncionamento.textContent = `Horário: ${horaAbertura} - ${horaFechamento}`;
 
-        // Exibir informações da loja
-        if (loja.nome && loja.slogan && loja.logo) {
-            lojaInfo.innerHTML = `
-                <img src="${loja.logo}" alt="Logo da Loja">
-                <div>
-                    <h2>${loja.nome}</h2>
-                    <p>${loja.slogan}</p>
-                </div>
-            `;
-        } else {
-            lojaInfo.innerHTML = `
-                <p>Informações da loja não configuradas. Adicione-as no painel de gerenciamento.</p>
-            `;
-        }
+    const cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
+    const cardapioContainer = document.getElementById('cardapioContainer');
+    const cartCount = document.getElementById('cartCount');
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
-        // Horário de funcionamento da loja
-        let horaAbertura = localStorage.getItem('horaAbertura') || '19:00';
-        let horaFechamento = localStorage.getItem('horaFechamento') || '00:00';
+    atualizarContadorCarrinho();
 
-        // Exibir o horário de funcionamento
-        horarioFuncionamento.innerHTML = `
-            Horário de funcionamento: ${horaAbertura} - ${horaFechamento}
+    function verificarHorario() {
+      const agora = new Date();
+      const [hA, mA] = horaAbertura.split(':').map(Number);
+      const [hF, mF] = horaFechamento.split(':').map(Number);
+
+      const abertura = new Date();
+      abertura.setHours(hA, mA, 0, 0);
+
+      const fechamento = new Date();
+      fechamento.setHours(hF, mF, 0, 0);
+
+      if (fechamento <= abertura) {
+        fechamento.setDate(fechamento.getDate() + 1);
+      }
+
+      return agora >= abertura && agora <= fechamento;
+    }
+
+    function atualizarContadorCarrinho() {
+      cartCount.textContent = carrinho.length;
+    }
+
+    function renderizarCardapio() {
+      cardapioContainer.innerHTML = '';
+      if (cardapio.length === 0) {
+        cardapioContainer.innerHTML = '<p>O cardápio está vazio.</p>';
+        return;
+      }
+      const aberto = verificarHorario();
+      cardapio.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'lanche-card';
+        card.innerHTML = `
+          <img src="${item.imagem || 'https://via.placeholder.com/300x200'}" alt="${item.nome}">
+          <h3>${item.nome}</h3>
+          <p>${item.descricao}</p>
+          <strong>R$ ${item.preco.toFixed(2)}</strong>
+          <button onclick="adicionarAoCarrinho(${index})" ${aberto ? '' : 'disabled'}>
+            ${aberto ? 'Adicionar ao Carrinho' : 'Fora do horário'}
+          </button>
         `;
+        cardapioContainer.appendChild(card);
+      });
+    }
 
-        // Dados do cardápio no localStorage
-        const cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
-        const cardapioContainer = document.getElementById('cardapioContainer');
-        const cartCount = document.getElementById('cartCount');
+    function adicionarAoCarrinho(index) {
+      const item = cardapio[index];
+      carrinho.push(item);
+      localStorage.setItem('carrinho', JSON.stringify(carrinho));
+      atualizarContadorCarrinho();
+      alert(`${item.nome} foi adicionado ao carrinho!`);
+    }
 
-        // Inicializar o carrinho
-        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-        atualizarContadorCarrinho();
+    function abrirCarrinho() {
+      window.location.href = 'carrinho.html';
+    }
 
-        // Função para verificar o horário de funcionamento
-        function verificarHorario() {
-            const agora = new Date();
-            const horaAtual = agora.getHours();
-            const minutoAtual = agora.getMinutes();
-
-            const [horaAberturaH, minutoAberturaM] = horaAbertura.split(':').map(Number);
-            const [horaFechamentoH, minutoFechamentoM] = horaFechamento.split(':').map(Number);
-
-            // Verificar se o horário atual está dentro do intervalo
-            if (
-                (horaAtual > horaAberturaH || (horaAtual === horaAberturaH && minutoAtual >= minutoAberturaM)) &&
-                (horaAtual < horaFechamentoH || (horaAtual === horaFechamentoH && minutoAtual < minutoFechamentoM))
-            ) {
-                return true; // Está aberto
-            }
-
-            return false; // Está fechado
-        }
-
-        // Atualizar o contador do carrinho
-        function atualizarContadorCarrinho() {
-            cartCount.textContent = carrinho.length;
-        }
-
-        // Renderizar o cardápio
-        function renderizarCardapio() {
-            cardapioContainer.innerHTML = '';
-            if (cardapio.length === 0) {
-                cardapioContainer.innerHTML = '<p>O cardápio está vazio. Adicione itens no painel de gerenciamento.</p>';
-                return;
-            }
-            cardapio.forEach((lanche, index) => {
-                const lancheCard = document.createElement('div');
-                lancheCard.className = 'lanche-card';
-
-                const buttonDisabled = !verificarHorario(); // Desabilitar botão se estiver fechado
-
-                lancheCard.innerHTML = `
-                    <img src="${lanche.imagem || 'https://via.placeholder.com/300x200'}" alt="${lanche.nome}">
-                    <h3>${lanche.nome}</h3>
-                    <p>${lanche.descricao}</p>
-                    <p><strong>R$ ${lanche.preco.toFixed(2)}</strong></p>
-                    <button onclick="adicionarAoCarrinho(${index})" ${buttonDisabled ? 'disabled' : ''}>
-                        ${buttonDisabled ? 'Fora do horário' : 'Adicionar ao Carrinho'}
-                    </button>
-                `;
-                cardapioContainer.appendChild(lancheCard);
-            });
-        }
-
-        // Adicionar item ao carrinho
-        function adicionarAoCarrinho(index) {
-            const item = cardapio[index];
-            carrinho.push(item);
-            localStorage.setItem('carrinho', JSON.stringify(carrinho));
-            atualizarContadorCarrinho();
-            alert(`${item.nome} foi adicionado ao carrinho!`);
-        }
-
-        // Abrir o carrinho (redirecionar para outra página)
-        function abrirCarrinho() {
-            window.location.href = 'carrinho.html';
-        }
-
-        // Aplicar cores personalizadas
-        function aplicarCores() {
-            const corFundo = localStorage.getItem('corFundo') || '#ffffff'; // Cor de fundo da página
-            const corBotao = localStorage.getItem('corBotao') || '#ff9800'; // Cor dos botões
-            const corCabecalho = localStorage.getItem('corCabecalho') || '#ff9800'; // Cor do cabeçalho
-
-            // Aplicar a cor de fundo da página
-            document.body.style.backgroundColor = corFundo;
-
-            // Aplicar cor dos botões
-            const botoes = document.querySelectorAll('.lanche-card button');
-            botoes.forEach(button => {
-                button.style.backgroundColor = corBotao;
-            });
-
-            // Aplicar a cor do cabeçalho
-            header.style.backgroundColor = corCabecalho;
-        }
-
-        // Renderizar o cardápio e aplicar cores ao carregar a página
-        renderizarCardapio();
-        aplicarCores();
-    </script>
+    renderizarCardapio();
+  </script>
 
 </body>
 </html>
