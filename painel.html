@@ -1,260 +1,303 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Gerenciamento</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #6a1b9a;
-            color: white;
-            text-align: center;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        main {
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .form-container {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2.5rem;
-            transition: all 0.3s ease;
-        }
-        .form-container:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        }
-        .form-container h2 {
-            margin-bottom: 1rem;
-            color: #6a1b9a;
-        }
-        .form-container label {
-            font-weight: 500;
-            margin-top: 0.5rem;
-            display: block;
-            margin-bottom: 0.3rem;
-        }
-        .form-container input,
-        .form-container textarea,
-        .form-container button {
-            width: 100%;
-            padding: 0.9rem;
-            margin-bottom: 1.2rem;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-        .form-container button {
-            background-color: #6a1b9a;
-            color: white;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-        .form-container button:hover {
-            background-color: #4a148c;
-            transform: scale(1.03);
-        }
-        .nav-link {
-            display: inline-block;
-            margin: 1rem 1rem 0 0;
-            text-align: center;
-            text-decoration: none;
-            color: #6a1b9a;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        .nav-link:hover {
-            color: #4a148c;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel de Gerenciamento</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      color: var(--corFonte1, #000000);
+    }
+    header {
+      background-color: var(--corCabecalho, #6a1b9a);
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    main {
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .form-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2.5rem;
+      transition: all 0.3s ease;
+      color: var(--corFonte2, #000000);
+    }
+    .form-container:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    .form-container h2 {
+      margin-bottom: 1rem;
+      color: var(--corFonte3, #6a1b9a);
+    }
+    .form-container label {
+      font-weight: 500;
+      margin-top: 0.5rem;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .form-container input,
+    .form-container textarea,
+    .form-container button {
+      width: 100%;
+      padding: 0.9rem;
+      margin-bottom: 1.2rem;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      color: #000;
+    }
+    .form-container button {
+      background-color: var(--corBotao, #6a1b9a);
+      color: white;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .form-container button:hover {
+      background-color: #4a148c;
+      transform: scale(1.03);
+    }
+    .nav-link {
+      display: inline-block;
+      margin: 1rem 1rem 0 0;
+      text-align: center;
+      text-decoration: none;
+      color: var(--corFonte3, #6a1b9a);
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    .nav-link:hover {
+      color: #4a148c;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Painel de Gerenciamento</h1>
-        <p id="statusHorario">Horário de funcionamento: 19h às 00h</p>
-    </header>
-    <main>
-        <!-- Formulário para configurar as cores -->
-        <div class="form-container">
-            <h2>Escolher Cores</h2>
-            <form id="formCores">
-                <label for="corFundo">Cor de Fundo:</label>
-                <input type="color" id="corFundo" value="#ff9800">
-                <label for="corCabecalho">Cor do Cabeçalho:</label>
-                <input type="color" id="corCabecalho" value="#ff9800">
-                <label for="corBotao">Cor dos Botões:</label>
-                <input type="color" id="corBotao" value="#e68a00">
-                <button type="submit">Salvar Cores</button>
-            </form>
-        </div>
+  <header>
+    <h1>Painel de Gerenciamento</h1>
+  </header>
+  <main>
+    <!-- Escolher cores -->
+    <div class="form-container">
+      <h2>Escolher Cores</h2>
+      <form id="formCores">
+        <label for="corFundo">Cor de Fundo:</label>
+        <input type="color" id="corFundo" value="#f4f6f9" />
+        <label for="corCabecalho">Cor do Cabeçalho:</label>
+        <input type="color" id="corCabecalho" value="#6a1b9a" />
+        <label for="corBotao">Cor dos Botões:</label>
+        <input type="color" id="corBotao" value="#6a1b9a" />
+        <label for="corFonte1">Cor da Fonte 1 (cor principal):</label>
+        <input type="color" id="corFonte1" value="#000000" />
+        <label for="corFonte2">Cor da Fonte 2 (formulários):</label>
+        <input type="color" id="corFonte2" value="#000000" />
+        <label for="corFonte3">Cor da Fonte 3 (títulos e links):</label>
+        <input type="color" id="corFonte3" value="#6a1b9a" />
+        <button type="submit">Salvar Cores</button>
+      </form>
+    </div>
 
-        <div class="form-container">
-            <h2>Configurar Horário de Funcionamento</h2>
-            <form id="formHorario">
-                <label for="horaAbertura">Hora de Abertura:</label>
-                <input type="time" id="horaAbertura" required>
-                <label for="horaFechamento">Hora de Fechamento:</label>
-                <input type="time" id="horaFechamento" required>
-                <button type="submit">Salvar Horário</button>
-            </form>
-        </div>
+    <!-- Outros formulários mantidos -->
+    <div class="form-container">
+      <h2>Configurar Horário de Funcionamento</h2>
+      <form id="formHorario">
+        <label for="horaAbertura">Hora de Abertura:</label>
+        <input type="time" id="horaAbertura" required />
+        <label for="horaFechamento">Hora de Fechamento:</label>
+        <input type="time" id="horaFechamento" required />
+        <button type="submit">Salvar Horário</button>
+      </form>
+    </div>
 
-        <div class="form-container">
-            <h2>Adicionar Novo Item</h2>
-            <form id="formLanche">
-                <input type="text" id="nomeLanche" placeholder="Nome do Lanche" required>
-                <input type="number" id="precoLanche" placeholder="Preço (R$)" required>
-                <textarea id="descricaoLanche" placeholder="Descrição" required></textarea>
-                <input type="file" id="imagemLanche" accept="image/*" required>
-                <button type="submit">Adicionar ao Cardápio</button>
-            </form>
-        </div>
+    <div class="form-container">
+      <h2>Adicionar Novo Item</h2>
+      <form id="formLanche">
+        <input type="text" id="nomeLanche" placeholder="Nome do Lanche" required />
+        <input type="text" id="precoLanche" placeholder="Preço (R$)" required />
+        <textarea id="descricaoLanche" placeholder="Descrição" required></textarea>
+        <input type="file" id="imagemLanche" accept="image/*" required />
+        <button type="submit">Adicionar ao Cardápio</button>
+      </form>
+    </div>
 
-        <div class="form-container">
-            <h2>Configurar Informações da Loja</h2>
-            <form id="formLoja">
-                <input type="text" id="nomeLoja" placeholder="Nome da Loja" required>
-                <input type="text" id="sloganLoja" placeholder="Slogan da Loja" required>
-                <input type="file" id="logoLoja" accept="image/*" required>
-                <button type="submit">Salvar Informações</button>
-            </form>
-        </div>
+    <div class="form-container">
+      <h2>Configurar Informações da Loja</h2>
+      <form id="formLoja">
+        <input type="text" id="nomeLoja" placeholder="Nome da Loja" required />
+        <input type="text" id="sloganLoja" placeholder="Slogan da Loja" required />
+        <input type="text" id="enderecoLoja" placeholder="Endereço da Loja" required />
+        <input type="tel" id="contatoLoja" placeholder="Contato da Loja (telefone ou WhatsApp)" required />
+        <input type="file" id="logoLoja" accept="image/*" required />
+        <button type="submit">Salvar Informações</button>
+      </form>
+    </div>
 
-        <a href="comprar.html" class="nav-link">Ir para a Página de Compras</a>
-        <a href="admin.html" class="nav-link">Ir para a Página cardápio admin</a>
-    </main>
+    <a href="comprar.html" class="nav-link">Ir para a Página de Compras</a>
+    <a href="admin.html" class="nav-link">Ir para a Página cardápio admin</a>
+  </main>
 
-    <script>
-        function aplicarCores() {
-            const corFundo = localStorage.getItem('corFundo') || '#ff9800';
-            const corBotao = localStorage.getItem('corBotao') || '#e68a00';
-            const corCabecalho = localStorage.getItem('corCabecalho') || '#ff9800';
+  <script>
+    // Aplica cores armazenadas no localStorage usando CSS custom properties
+    function aplicarCores() {
+      const corFundo = localStorage.getItem('corFundo') || '#f4f6f9';
+      const corCabecalho = localStorage.getItem('corCabecalho') || '#6a1b9a';
+      const corBotao = localStorage.getItem('corBotao') || '#6a1b9a';
+      const corFonte1 = localStorage.getItem('corFonte1') || '#000000';
+      const corFonte2 = localStorage.getItem('corFonte2') || '#000000';
+      const corFonte3 = localStorage.getItem('corFonte3') || '#6a1b9a';
 
-            document.body.style.backgroundColor = corFundo;
+      document.body.style.backgroundColor = corFundo;
+      document.body.style.setProperty('--corCabecalho', corCabecalho);
+      document.body.style.setProperty('--corBotao', corBotao);
+      document.body.style.setProperty('--corFonte1', corFonte1);
+      document.body.style.setProperty('--corFonte2', corFonte2);
+      document.body.style.setProperty('--corFonte3', corFonte3);
+    }
 
-            const botoes = document.querySelectorAll('.form-container button');
-            botoes.forEach(button => {
-                button.style.backgroundColor = corBotao;
-            });
+    aplicarCores();
 
-            const header = document.querySelector('header');
-            header.style.backgroundColor = corCabecalho;
-        }
+    // Salvando cores escolhidas no formulário
+    const formCores = document.getElementById('formCores');
+    formCores.addEventListener('submit', function (event) {
+      event.preventDefault();
 
-        aplicarCores();
+      localStorage.setItem('corFundo', document.getElementById('corFundo').value);
+      localStorage.setItem('corCabecalho', document.getElementById('corCabecalho').value);
+      localStorage.setItem('corBotao', document.getElementById('corBotao').value);
+      localStorage.setItem('corFonte1', document.getElementById('corFonte1').value);
+      localStorage.setItem('corFonte2', document.getElementById('corFonte2').value);
+      localStorage.setItem('corFonte3', document.getElementById('corFonte3').value);
 
-        const formCores = document.getElementById('formCores');
-        formCores.addEventListener('submit', function (event) {
-            event.preventDefault();
+      aplicarCores();
+      alert('Cores salvas com sucesso!');
+    });
 
-            const corFundo = document.getElementById('corFundo').value;
-            const corCabecalho = document.getElementById('corCabecalho').value;
-            const corBotao = document.getElementById('corBotao').value;
+    // Horário funcionamento
+    const formHorario = document.getElementById('formHorario');
+    formHorario.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const horaAbertura = document.getElementById('horaAbertura').value;
+      const horaFechamento = document.getElementById('horaFechamento').value;
+      localStorage.setItem('horaAbertura', horaAbertura);
+      localStorage.setItem('horaFechamento', horaFechamento);
+      alert('Horário de funcionamento atualizado!');
+    });
 
-            localStorage.setItem('corFundo', corFundo);
-            localStorage.setItem('corCabecalho', corCabecalho);
-            localStorage.setItem('corBotao', corBotao);
+    // Pré-preenche horário salvo no localStorage
+    document.getElementById('horaAbertura').value = localStorage.getItem('horaAbertura') || '';
+    document.getElementById('horaFechamento').value = localStorage.getItem('horaFechamento') || '';
 
-            aplicarCores();
-            alert('Cores salvas com sucesso!');
-        });
+    // Função para formatar preço no input com vírgulas e decimais
+    function formatarPreco(valor) {
+      valor = valor.replace(/[^\d,\.]/g, '');
+      valor = valor.replace(/,/g, '.');
 
-        let horaAbertura = localStorage.getItem('horaAbertura') || '19:00';
-        let horaFechamento = localStorage.getItem('horaFechamento') || '00:00';
+      let num = parseFloat(valor);
+      if (isNaN(num)) return '';
 
-        function atualizarStatus() {
-            const statusElement = document.getElementById('statusHorario');
-            statusElement.textContent = `Horário de funcionamento: ${horaAbertura} às ${horaFechamento}`;
-        }
+      return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
 
-        atualizarStatus();
+    const precoLancheInput = document.getElementById('precoLanche');
+    precoLancheInput.addEventListener('input', function () {
+      let valor = this.value;
+      this.value = formatarPreco(valor);
+    });
 
-        const formHorario = document.getElementById('formHorario');
-        formHorario.addEventListener('submit', function (event) {
-            event.preventDefault();
+    // Lanches armazenados no localStorage
+    let lanches = JSON.parse(localStorage.getItem('lanches')) || [];
 
-            const horaAberturaInput = document.getElementById('horaAbertura').value;
-            const horaFechamentoInput = document.getElementById('horaFechamento').value;
+    // Adicionar lanche
+    const formLanche = document.getElementById('formLanche');
+    formLanche.addEventListener('submit', function (event) {
+      event.preventDefault();
 
-            localStorage.setItem('horaAbertura', horaAberturaInput);
-            localStorage.setItem('horaFechamento', horaFechamentoInput);
+      const nome = document.getElementById('nomeLanche').value.trim();
+      const precoStr = document.getElementById('precoLanche').value.trim().replace('.', '').replace(',', '.');
+      const preco = parseFloat(precoStr);
+      const descricao = document.getElementById('descricaoLanche').value.trim();
+      const imagemInput = document.getElementById('imagemLanche');
 
-            horaAbertura = horaAberturaInput;
-            horaFechamento = horaFechamentoInput;
+      if (!nome || isNaN(preco) || !descricao || imagemInput.files.length === 0) {
+        alert('Por favor, preencha todos os campos corretamente.');
+        return;
+      }
 
-            alert('Horário de funcionamento atualizado!');
-            atualizarStatus();
-        });
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const imagemBase64 = e.target.result;
 
-        const formLanche = document.getElementById('formLanche');
-        const nomeLanche = document.getElementById('nomeLanche');
-        const precoLanche = document.getElementById('precoLanche');
-        const descricaoLanche = document.getElementById('descricaoLanche');
-        const imagemLanche = document.getElementById('imagemLanche');
+        const lanche = { nome, preco, descricao, imagemBase64 };
+        lanches.push(lanche);
+        localStorage.setItem('lanches', JSON.stringify(lanches));
+        alert('Lanche adicionado com sucesso!');
 
-        let cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
+        formLanche.reset();
+      };
 
-        formLanche.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const file = imagemLanche.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function () {
-                    const novoItem = {
-                        nome: nomeLanche.value,
-                        preco: parseFloat(precoLanche.value),
-                        descricao: descricaoLanche.value,
-                        imagem: reader.result
-                    };
-                    cardapio.push(novoItem);
-                    localStorage.setItem('cardapio', JSON.stringify(cardapio));
-                    nomeLanche.value = '';
-                    precoLanche.value = '';
-                    descricaoLanche.value = '';
-                    imagemLanche.value = '';
-                    alert('Item adicionado com sucesso!');
-                };
-            }
-        });
+      reader.readAsDataURL(imagemInput.files[0]);
+    });
 
-        const formLoja = document.getElementById('formLoja');
-        formLoja.addEventListener('submit', function (event) {
-            event.preventDefault();
+    // Informações da loja com endereço e contato
+    const formLoja = document.getElementById('formLoja');
+    formLoja.addEventListener('submit', function (event) {
+      event.preventDefault();
 
-            const nomeLoja = document.getElementById('nomeLoja').value;
-            const sloganLoja = document.getElementById('sloganLoja').value;
-            const logoLoja = document.getElementById('logoLoja').files[0];
+      const nomeLoja = document.getElementById('nomeLoja').value.trim();
+      const sloganLoja = document.getElementById('sloganLoja').value.trim();
+      const enderecoLoja = document.getElementById('enderecoLoja').value.trim();
+      const contatoLoja = document.getElementById('contatoLoja').value.trim();
+      const logoInput = document.getElementById('logoLoja');
 
-            if (logoLoja) {
-                const reader = new FileReader();
-                reader.readAsDataURL(logoLoja);
-                reader.onload = function () {
-                    const loja = {
-                        nome: nomeLoja,
-                        slogan: sloganLoja,
-                        logo: reader.result
-                    };
-                    localStorage.setItem('loja', JSON.stringify(loja));
-                    alert('Informações da loja salvas com sucesso!');
-                };
-            }
-        });
-    </script>
+      if (!nomeLoja || !sloganLoja || !enderecoLoja || !contatoLoja || logoInput.files.length === 0) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const logoBase64 = e.target.result;
+
+        const infoLoja = {
+          nomeLoja,
+          sloganLoja,
+          enderecoLoja,
+          contatoLoja,
+          logoBase64,
+        };
+
+        localStorage.setItem('infoLoja', JSON.stringify(infoLoja));
+        alert('Informações da loja salvas com sucesso!');
+        formLoja.reset();
+      };
+
+      reader.readAsDataURL(logoInput.files[0]);
+    });
+
+    // Pré-preencher informações da loja se existir
+    window.addEventListener('load', () => {
+      const infoLoja = JSON.parse(localStorage.getItem('infoLoja'));
+      if (infoLoja) {
+        document.getElementById('nomeLoja').value = infoLoja.nomeLoja || '';
+        document.getElementById('sloganLoja').value = infoLoja.sloganLoja || '';
+        document.getElementById('enderecoLoja').value = infoLoja.enderecoLoja || '';
+        document.getElementById('contatoLoja').value = infoLoja.contatoLoja || '';
+      }
+    });
+  </script>
 </body>
 </html>

@@ -1,305 +1,72 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cardápio Lanchonete</title>
-
-  <!-- Fonte moderna -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f8f9fa;
-      color: #333;
-    }
-
-    header {
-      background-color: #ff9800;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
-
-    h2 {
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .cardapio {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .item {
-      background-color: white;
-      padding: 1rem;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .item img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 0.5rem;
-    }
-
-    .item h3 {
-      margin: 0.5rem 0;
-      font-size: 1.1rem;
-    }
-
-    footer {
-      background-color: #ff9800;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
-    }
-
-    .btn-excluir, .btn-editar {
-      padding: 0.4rem 0.8rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 0.2rem;
-      font-size: 0.9rem;
-    }
-
-    .btn-excluir {
-      background-color: #e74c3c;
-      color: white;
-    }
-
-    .btn-excluir:hover {
-      background-color: #c0392b;
-    }
-
-    .btn-editar {
-      background-color: #f39c12;
-      color: white;
-    }
-
-    .btn-editar:hover {
-      background-color: #e67e22;
-    }
-
-    .horario-container {
-      background-color: white;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-      text-align: center;
-      margin-top: 3rem;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 100;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-    }
-
-    .modal-content {
-      background-color: white;
-      margin: 10% auto;
-      padding: 2rem;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .modal-content input {
-      width: 100%;
-      padding: 0.6rem;
-      margin: 0.5rem 0;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-
-    .modal-content button {
-      padding: 0.6rem 1rem;
-      margin: 0.5rem;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    .btn-salvar {
-      background-color: #28a745;
-      color: white;
-    }
-
-    .btn-cancelar {
-      background-color: #dc3545;
-      color: white;
-    }
-
-    .btn-salvar:hover {
-      background-color: #218838;
-    }
-
-    .btn-cancelar:hover {
-      background-color: #c82333;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cardápio Admin</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #f4f6f9;
+    margin: 2rem;
+  }
+  h1 {
+    color: #6a1b9a;
+    text-align: center;
+  }
+  .cardapio-item {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .cardapio-item img {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  .item-info {
+    flex: 1;
+  }
+  .item-info h2 {
+    margin: 0 0 0.5rem 0;
+    color: #6a1b9a;
+  }
+  .item-info p {
+    margin: 0;
+    color: #555;
+  }
+</style>
 </head>
 <body>
-  <header>
-    <h1>Cardápio Lanchonete Delícia</h1>
-  </header>
+<h1>Cardápio Cadastrado</h1>
+<div id="listaCardapio"></div>
 
-  <div class="container">
-    <main>
-      <h2>Confira nosso Cardápio!</h2>
-      <div class="cardapio" id="cardapioContainer"></div>
+<script>
+  const cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
+  const lista = document.getElementById('listaCardapio');
 
-      <div class="horario-container">
-        <h3>Horário de Funcionamento</h3>
-        <p id="horarioExibido">Carregando horário...</p>
-      </div>
-    </main>
-  </div>
-
-  <footer>
-    <p>Lanchonete Delícia | Endereço: Rua Saborosa, 123 - Centro</p>
-  </footer>
-
-  <!-- Modal -->
-  <div id="modalEditar" class="modal">
-    <div class="modal-content">
-      <h3>Editar Item</h3>
-      <input type="text" id="editarNome" placeholder="Nome do lanche">
-      <input type="number" step="0.01" id="editarPreco" placeholder="Preço do lanche">
-      <input type="text" id="editarImagem" placeholder="URL da imagem">
-      <button class="btn-salvar" onclick="salvarEdicao()">Salvar</button>
-      <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
-    </div>
-  </div>
-
-  <script>
-    let itemEditandoIndex = null;
-
-    if (!localStorage.getItem('horarioFuncionamento')) {
-      localStorage.setItem('horarioFuncionamento', JSON.stringify({
-        abertura: '08:00',
-        fechamento: '18:00'
-      }));
-    }
-
-    function carregarCardapio() {
-      const cardapioContainer = document.getElementById('cardapioContainer');
-      const cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
-
-      cardapioContainer.innerHTML = '';
-
-      if (cardapio.length > 0) {
-        cardapio.forEach((item, index) => {
-          const itemDiv = document.createElement('div');
-          itemDiv.classList.add('item');
-
-          itemDiv.innerHTML = `
-            <img src="${item.imagem}" alt="${item.nome}">
-            <h3>${item.nome}</h3>
-            <p>R$ ${item.preco.toFixed(2)}</p>
-            <button class="btn-editar" onclick="editarItem(${index})">Editar</button>
-            <button class="btn-excluir" onclick="excluirItem(${index})">Excluir</button>
-          `;
-
-          cardapioContainer.appendChild(itemDiv);
-        });
-      } else {
-        cardapioContainer.innerHTML = '<p>Nenhum item no cardápio.</p>';
-      }
-    }
-
-    function excluirItem(index) {
-      const cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
-      cardapio.splice(index, 1);
-      localStorage.setItem('cardapio', JSON.stringify(cardapio));
-      carregarCardapio();
-    }
-
-    function editarItem(index) {
-      const cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
-      const item = cardapio[index];
-      itemEditandoIndex = index;
-
-      document.getElementById('editarNome').value = item.nome;
-      document.getElementById('editarPreco').value = item.preco;
-      document.getElementById('editarImagem').value = item.imagem;
-
-      document.getElementById('modalEditar').style.display = 'block';
-    }
-
-    function salvarEdicao() {
-      const cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
-
-      const nome = document.getElementById('editarNome').value;
-      const preco = parseFloat(document.getElementById('editarPreco').value);
-      const imagem = document.getElementById('editarImagem').value;
-
-      if (nome && !isNaN(preco) && imagem) {
-        cardapio[itemEditandoIndex] = { nome, preco, imagem };
-        localStorage.setItem('cardapio', JSON.stringify(cardapio));
-        carregarCardapio();
-        fecharModal();
-      } else {
-        alert("Preencha todos os campos corretamente.");
-      }
-    }
-
-    function fecharModal() {
-      document.getElementById('modalEditar').style.display = 'none';
-    }
-
-    function carregarHorario() {
-      const horario = JSON.parse(localStorage.getItem('horarioFuncionamento'));
-      const horarioExibido = document.getElementById('horarioExibido');
-
-      if (horario && horario.abertura && horario.fechamento) {
-        horarioExibido.textContent = `Aberto das ${horario.abertura} às ${horario.fechamento}`;
-      } else {
-        horarioExibido.textContent = 'Horário de Funcionamento não configurado.';
-      }
-    }
-
-    window.onload = function () {
-      carregarCardapio();
-      carregarHorario();
-    };
-
-    window.onclick = function(event) {
-      const modal = document.getElementById('modalEditar');
-      if (event.target === modal) {
-        fecharModal();
-      }
-    };
-  </script>
+  if(cardapio.length === 0) {
+    lista.innerHTML = '<p>Nenhum item cadastrado no cardápio.</p>';
+  } else {
+    cardapio.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'cardapio-item';
+      div.innerHTML = `
+        <img src="${item.imagem}" alt="${item.nome}" />
+        <div class="item-info">
+          <h2>${item.nome} - R$ ${item.preco.toFixed(2)}</h2>
+          <p>${item.descricao}</p>
+        </div>
+      `;
+      lista.appendChild(div);
+    });
+  }
+</script>
 </body>
 </html>

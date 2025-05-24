@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Relatório de Vendas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+      color: #ff9800;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      margin-top: 2rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: left;
+    }
+    th {
+      background-color: #ff9800;
+      color: white;
+    }
+    tfoot td {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Relatório de Vendas</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Itens</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="tabela-vendas"></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2">Total Geral</td>
+        <td id="total-geral">R$ 0.00</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <script>
+    const vendas = JSON.parse(localStorage.getItem('vendas')) || [];
+    const tbody = document.getElementById('tabela-vendas');
+    const totalGeralSpan = document.getElementById('total-geral');
+    let totalGeral = 0;
+
+    vendas.forEach(pedido => {
+      const tr = document.createElement('tr');
+      const itens = pedido.itens.map(item => item.nome).join(', ');
+      totalGeral += pedido.total;
+
+      tr.innerHTML = `
+        <td>${pedido.data}</td>
+        <td>${itens}</td>
+        <td>R$ ${pedido.total.toFixed(2)}</td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+
+    totalGeralSpan.textContent = "R$ " + totalGeral.toFixed(2);
+  </script>
+</body>
+</html>

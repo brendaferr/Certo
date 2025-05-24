@@ -1,258 +1,286 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardápio</title>
-    <style>
-        :root {
-            --cor-cabecalho: #ff9800;
-            --cor-botao: #ff9800;
-            --cor-fundo: #ffffff;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cardápio - Super Hero Burger</title>
+  <style>
+    :root {
+      --cor-principal: #7a0000;
+      --cor-fundo: #f8f8fc;
+      --cor-destaque: #ff9800;
+      --cor-texto: #333;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--cor-fundo);
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        header {
-            background: var(--cor-cabecalho);
-            color: white;
-            padding: 1rem 1.5rem;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--cor-fundo);
+      color: var(--cor-texto);
+      padding-bottom: 40px; /* espaço para o rodapé fixo */
+    }
 
-        .topo-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
+    header {
+      background-color: var(--cor-principal);
+      height: 120px;
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 1rem;
+    }
 
-        .info-loja {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+    .carrinho-icon {
+      position: relative;
+      cursor: pointer;
+    }
 
-        .info-loja img {
-            width: 70px;
-            height: 70px;
-            border-radius: 12px;
-            object-fit: cover;
-            box-shadow: 0 0 4px rgba(0,0,0,0.2);
-        }
+    .carrinho-icon img {
+      width: 30px;
+      filter: invert(100%);
+    }
 
-        .info-loja h2 {
-            font-size: 1.5rem;
-            margin-bottom: 4px;
-        }
+    .carrinho-icon span {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background-color: red;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: bold;
+      border-radius: 50%;
+      padding: 2px 6px;
+    }
 
-        .info-loja p {
-            font-size: 0.95rem;
-            opacity: 0.9;
-        }
+    .cabecalho-central {
+      text-align: center;
+      margin-top: -50px;
+      padding-bottom: 1rem;
+    }
 
-        .info-direita {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
+    .logo-loja {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      animation: flutuar 3s ease-in-out infinite alternate;
+    }
 
-        .horario-box {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            font-size: 0.95rem;
-        }
+    @keyframes flutuar {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(-6px);
+      }
+    }
 
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-        }
+    .nome-loja {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
 
-        .cart-icon img {
-            width: 32px;
-            filter: drop-shadow(0 0 2px rgba(0,0,0,0.2));
-        }
+    .slogan-loja {
+      font-size: 0.95rem;
+      color: #666;
+    }
 
-        .cart-icon span {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background-color: red;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: bold;
-            border-radius: 50%;
-            padding: 2px 6px;
-        }
+    .horario {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 0.3rem;
+    }
 
-        main {
-            padding: 2rem;
-        }
+    main {
+      padding: 2rem 1rem;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-        .cardapio-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-        }
+    .cardapio-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
 
-        .lanche-card {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 1rem;
-            width: 300px;
-            text-align: center;
-        }
+    .lanche-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      width: 280px;
+      padding: 1rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
 
-        .lanche-card img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
+    .lanche-card:hover {
+      transform: scale(1.03);
+    }
 
-        .lanche-card h3 {
-            margin: 0.5rem 0;
-            font-size: 1.2rem;
-        }
+    .lanche-card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
 
-        .lanche-card p {
-            margin: 0.5rem 0;
-            color: #555;
-        }
+    .lanche-card h3 {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+    }
 
-        .lanche-card button {
-            padding: 0.8rem 1.2rem;
-            background-color: var(--cor-botao);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .lanche-card p {
+      color: #555;
+      font-size: 0.95rem;
+    }
 
-        .lanche-card button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
+    .lanche-card button {
+      margin-top: 0.5rem;
+      background-color: var(--cor-destaque);
+      border: none;
+      color: white;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 0.95rem;
+    }
 
-        .lanche-card button:hover:not(:disabled) {
-            background-color: #e68a00;
-        }
-    </style>
+    .lanche-card button:hover {
+      background-color: #e08500;
+    }
+
+    /* Rodapé fixo pequeno */
+    footer {
+      background-color: var(--cor-principal);
+      color: white;
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
+      z-index: 1000;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    footer span {
+      display: inline-block;
+      margin: 0 0.5rem;
+    }
+  </style>
 </head>
 <body>
-    <header id="header">
-        <div class="topo-container">
-            <div class="info-loja">
-                <img src="" id="logoLoja" alt="Logo da Loja">
-                <div>
-                    <h2 id="nomeLoja">Nome da Loja</h2>
-                    <p id="sloganLoja">Slogan da Loja</p>
-                </div>
-            </div>
-            <div class="info-direita">
-                <div class="horario-box">
-                    <span id="horarioFuncionamento">Horário: --:-- - --:--</span>
-                </div>
-                <div class="cart-icon" onclick="abrirCarrinho()">
-                    <img src="https://img.icons8.com/ios-filled/50/ffffff/shopping-cart.png" alt="Carrinho">
-                    <span id="cartCount">0</span>
-                </div>
-            </div>
-        </div>
-    </header>
+  <header>
+    <div class="carrinho-icon" onclick="abrirCarrinho()">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/shopping-cart.png" alt="Carrinho">
+      <span id="cartCount">0</span>
+    </div>
+  </header>
 
-    <main>
-        <div class="cardapio-container" id="cardapioContainer"></div>
-    </main>
+  <section class="cabecalho-central">
+    <img src="" alt="Logo da Loja" id="logoLoja" class="logo-loja" />
+    <h2 class="nome-loja" id="nomeLoja">Super Hero Burger</h2>
+    <p class="slogan-loja" id="sloganLoja">Todo Hero merece um Super hero burger</p>
+    <div class="horario" id="horarioFuncionamento">Horário: --:-- - --:--</div>
+  </section>
 
-    <script>
-        const loja = JSON.parse(localStorage.getItem('loja')) || {};
-        const cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
-        const cardapioContainer = document.getElementById('cardapioContainer');
-        const cartCount = document.getElementById('cartCount');
+  <main>
+    <div class="cardapio-container" id="cardapioContainer">
+      <!-- Produtos vão aparecer aqui -->
+    </div>
+  </main>
 
-        const horaAbertura = localStorage.getItem('horaAbertura') || '19:00';
-        const horaFechamento = localStorage.getItem('horaFechamento') || '00:00';
+  <footer>
+    <span id="rodapeNomeLoja">Super Hero Burger</span> | 
+    <span id="rodapeEndereco">Rua Exemplo, 123</span> | 
+    <span id="rodapeTelefone">(11) 99999-9999</span>
+  </footer>
 
-        document.getElementById('horarioFuncionamento').textContent = `Horário: ${horaAbertura} - ${horaFechamento}`;
+  <script>
+    const loja = JSON.parse(localStorage.getItem('loja')) || {
+      nome: "Super Hero Burger",
+      slogan: "Todo Hero merece um Super hero burger",
+      logo: "https://via.placeholder.com/100",
+      endereco: "Rua Exemplo, 123",
+      telefone: "(11) 99999-9999"
+    };
 
-        if (loja.nome && loja.slogan && loja.logo) {
-            document.getElementById('logoLoja').src = loja.logo;
-            document.getElementById('nomeLoja').textContent = loja.nome;
-            document.getElementById('sloganLoja').textContent = loja.slogan;
-        }
+    const cardapio = JSON.parse(localStorage.getItem('cardapio')) || [];
+    const horaAbertura = localStorage.getItem('horaAbertura') || '19:00';
+    const horaFechamento = localStorage.getItem('horaFechamento') || '00:00';
 
-        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-        atualizarContadorCarrinho();
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const cartCount = document.getElementById('cartCount');
 
-        function verificarHorario() {
-            const agora = new Date();
-            const horaAtual = agora.getHours();
-            const minutoAtual = agora.getMinutes();
+    function atualizarContadorCarrinho() {
+      cartCount.textContent = carrinho.length;
+    }
 
-            const [horaAberturaH, minutoAberturaM] = horaAbertura.split(':').map(Number);
-            const [horaFechamentoH, minutoFechamentoM] = horaFechamento.split(':').map(Number);
+    document.getElementById('logoLoja').src = loja.logo;
+    document.getElementById('nomeLoja').textContent = loja.nome;
+    document.getElementById('sloganLoja').textContent = loja.slogan;
+    document.getElementById('horarioFuncionamento').textContent = `Horário: ${horaAbertura} - ${horaFechamento}`;
 
-            if (
-                (horaAtual > horaAberturaH || (horaAtual === horaAberturaH && minutoAtual >= minutoAberturaM)) &&
-                (horaAtual < horaFechamentoH || (horaAtual === horaFechamentoH && minutoAtual < minutoFechamentoM))
-            ) {
-                return true;
-            }
-            return false;
-        }
+    // Atualizar dados do rodapé
+    const rodapeNomeLoja = document.getElementById('rodapeNomeLoja');
+    const rodapeEndereco = document.getElementById('rodapeEndereco');
+    const rodapeTelefone = document.getElementById('rodapeTelefone');
 
-        function atualizarContadorCarrinho() {
-            cartCount.textContent = carrinho.length;
-        }
+    rodapeNomeLoja.textContent = loja.nome || 'Super Hero Burger';
+    rodapeEndereco.textContent = loja.endereco || 'Endereço não informado';
+    rodapeTelefone.textContent = loja.telefone || '(00) 00000-0000';
 
-        function renderizarCardapio() {
-            cardapioContainer.innerHTML = '';
-            if (cardapio.length === 0) {
-                cardapioContainer.innerHTML = '<p>O cardápio está vazio. Adicione itens no painel de gerenciamento.</p>';
-                return;
-            }
+    const cardapioContainer = document.getElementById('cardapioContainer');
 
-            cardapio.forEach((lanche, index) => {
-                const lancheCard = document.createElement('div');
-                lancheCard.className = 'lanche-card';
+    function renderizarCardapio() {
+      cardapioContainer.innerHTML = '';
 
-                const buttonDisabled = !verificarHorario();
+      if (cardapio.length === 0) {
+        cardapioContainer.innerHTML = '<p>O cardápio está vazio.</p>';
+        return;
+      }
 
-                lancheCard.innerHTML = `
-                    <img src="${lanche.imagem || 'https://via.placeholder.com/300x200'}" alt="${lanche.nome}">
-                    <h3>${lanche.nome}</h3>
-                    <p>${lanche.descricao}</p>
-                    <p><strong>R$ ${lanche.preco.toFixed(2)}</strong></p>
-                    <button onclick="adicionarAoCarrinho(${index})" ${buttonDisabled ? 'disabled' : ''}>
-                        ${buttonDisabled ? 'Fora do horário' : 'Adicionar ao Carrinho'}
-                    </button>
-                `;
-                cardapioContainer.appendChild(lancheCard);
-            });
-        }
+      cardapio.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'lanche-card';
 
-        function adicionarAoCarrinho(index) {
-            const item = cardapio[index];
-            carrinho.push(item);
-            localStorage.setItem('carrinho', JSON.stringify(carrinho));
-            atualizarContadorCarrinho();
-            alert(`${item.nome} foi adicionado ao carrinho!`);
-        }
+        card.innerHTML = `
+          <img src="${item.imagem || 'https://via.placeholder.com/300x200'}" alt="${item.nome}">
+          <h3>${item.nome}</h3>
+          <p>${item.descricao}</p>
+          <p><strong>R$ ${item.preco.toFixed(2)}</strong></p>
+          <button onclick="adicionarAoCarrinho(${index})">Adicionar ao Carrinho</button>
+        `;
 
-        function abrirCarrinho() {
-            window.location.href = 'carrinho.html';
-        }
+        cardapioContainer.appendChild(card);
+      });
+    }
 
-        renderizarCardapio();
-    </script>
+    function adicionarAoCarrinho(index) {
+      const item = cardapio[index];
+      carrinho.push(item);
+      localStorage.setItem('carrinho', JSON.stringify(carrinho));
+      atualizarContadorCarrinho();
+      alert(`${item.nome} foi adicionado ao carrinho!`);
+    }
+
+    function abrirCarrinho() {
+      window.location.href = 'carrinho.html';
+    }
+
+    atualizarContadorCarrinho();
+    renderizarCardapio();
+  </script>
 </body>
 </html>
