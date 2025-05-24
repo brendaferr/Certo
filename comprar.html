@@ -22,7 +22,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--cor-fundo);
       color: var(--cor-texto);
-      padding-bottom: 40px; /* espaço para o rodapé fixo */
+      padding-bottom: 60px; /* espaço para o rodapé fixo */
     }
 
     header {
@@ -158,7 +158,6 @@
       background-color: #e08500;
     }
 
-    /* Rodapé fixo pequeno */
     footer {
       background-color: var(--cor-principal);
       color: white;
@@ -171,12 +170,9 @@
       width: 100%;
       box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
       z-index: 1000;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    footer span {
-      display: inline-block;
-      margin: 0 0.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
     }
   </style>
 </head>
@@ -202,8 +198,8 @@
   </main>
 
   <footer>
-    <span id="rodapeNomeLoja">Super Hero Burger</span> | 
-    <span id="rodapeEndereco">Rua Exemplo, 123</span> | 
+    <span id="rodapeNomeLoja">Super Hero Burger</span>
+    <span id="rodapeEndereco">Rua Exemplo, 123</span>
     <span id="rodapeTelefone">(11) 99999-9999</span>
   </footer>
 
@@ -232,14 +228,9 @@
     document.getElementById('sloganLoja').textContent = loja.slogan;
     document.getElementById('horarioFuncionamento').textContent = `Horário: ${horaAbertura} - ${horaFechamento}`;
 
-    // Atualizar dados do rodapé
-    const rodapeNomeLoja = document.getElementById('rodapeNomeLoja');
-    const rodapeEndereco = document.getElementById('rodapeEndereco');
-    const rodapeTelefone = document.getElementById('rodapeTelefone');
-
-    rodapeNomeLoja.textContent = loja.nome || 'Super Hero Burger';
-    rodapeEndereco.textContent = loja.endereco || 'Endereço não informado';
-    rodapeTelefone.textContent = loja.telefone || '(00) 00000-0000';
+    document.getElementById('rodapeNomeLoja').textContent = loja.nome || 'Super Hero Burger';
+    document.getElementById('rodapeEndereco').textContent = loja.endereco || 'Endereço não informado';
+    document.getElementById('rodapeTelefone').textContent = loja.telefone || '(00) 00000-0000';
 
     const cardapioContainer = document.getElementById('cardapioContainer');
 
