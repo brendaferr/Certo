@@ -1,102 +1,119 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lanchonete Delícia</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-        }
-        header {
-            background-color: #ff9800;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-        }
-        main {
-            padding: 2rem;
-            text-align: center;
-        }
-        footer {
-            background-color: #ff9800;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        .login {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f8f9fa;
-        }
-        .login-form {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 300px;
-            text-align: center;
-        }
-        .login-form input {
-            width: 100%;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .login-form button {
-            padding: 0.5rem 1rem;
-            background-color: #ff9800;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .login-form button:hover {
-            background-color: #e68a00;
-        }
-    </style>
-    <script>
-        function validarLogin() {
-            const usuario = document.querySelector('#usuario').value;
-            const senha = document.querySelector('#senha').value;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lanchonete Delícia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f8f9fa;
+    }
+    header {
+      background-color: #ff9800;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    header img {
+      height: 60px;
+      animation: bounceIn 1.5s ease;
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.1); opacity: 1; }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    footer {
+      background-color: #ff9800;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    .login-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 320px;
+      text-align: center;
+    }
+    .login-form input {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.6rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    .login-form button {
+      width: 100%;
+      padding: 0.6rem;
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .login-form button:hover {
+      background-color: #e68a00;
+    }
+  </style>
+  <script>
+    function validarLogin() {
+      const usuario = document.querySelector('#usuario').value.trim();
+      const senha = document.querySelector('#senha').value.trim();
 
-            // Credenciais fixas (substituir por um sistema de back-end em produção)
-            const usuarioCorreto = 'admin';
-            const senhaCorreta = '12345';
+      const usuarioCorreto = 'admin';
+      const senhaCorreta = '12345';
 
-            if (usuario === usuarioCorreto && senha === senhaCorreta) {
-                alert('Login bem-sucedido! Redirecionando para o painel.');
-                window.location.href = 'painel.html';
-            } else {
-                alert('Usuário ou senha incorretos!');
-            }
-        }
-    </script>
+      if (usuario === usuarioCorreto && senha === senhaCorreta) {
+        alert('Login bem-sucedido! Redirecionando para o painel...');
+        window.location.href = 'painel.html';
+      } else {
+        alert('Usuário ou senha incorretos!');
+      }
+    }
+  </script>
 </head>
 <body>
-    <header>
-        <h1>Lanchonete Delícia</h1>
-        <p>O melhor sabor, sempre!</p>
-    </header>
-    <div class="login">
-        <div class="login-form">
-            <h2>Login do Administrador</h2>
-            <input type="text" id="usuario" placeholder="Usuário" required>
-            <input type="password" id="senha" placeholder="Senha" required>
-            <button onclick="validarLogin()">Entrar</button>
-        </div>
+  <header>
+    <!-- Aqui está a logo adicionada -->
+    <img src="logo.png" alt="Tá Na Mão Logo">
+    <div>
+      <h1>Lanchonete Delícia</h1>
+      <p>O melhor sabor, sempre!</p>
     </div>
-    <footer>
-        <p>Telefone: (55) 99999-9999 | Endereço: Rua Saborosa, 123 - Centro</p>
-    </footer>
+  </header>
+
+  <main>
+    <div class="login-form">
+      <h2>Login do Administrador</h2>
+      <input type="text" id="usuario" placeholder="Usuário" required>
+      <input type="password" id="senha" placeholder="Senha" required>
+      <button onclick="validarLogin()">Entrar</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>Telefone: (55) 99999-9999 | Endereço: Rua Saborosa, 123 - Centro</p>
+  </footer>
 </body>
 </html>
